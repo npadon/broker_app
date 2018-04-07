@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#surveys">Surveys</a></li>
+    <li><a data-toggle="tab" href="#tourbooks">Tour books</a></li>
+    <li><a data-toggle="tab" href="#executivesummaries">Executive summaries</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="surveys" class="tab-pane fade in active">
+        <h3>Surveys</h3>
+        <ul class="list-group">
+            <li class="list-group-item">Survey 1</li>
+            <li class="list-group-item">Survey 2</li>
+            <li class="list-group-item">Survey 3</li>
+        </ul>
+    </div>
+    <div id="tourbooks" class="tab-pane fade">
+        <h3>Tour books</h3>
+        <ul class="list-group">
+            <li class="list-group-item">Tour book 1</li>
+            <li class="list-group-item">Tour book 2</li>
+            <li class="list-group-item">Tour book 3</li>
+        </ul>
+    </div>
+    <div id="executivesummaries" class="tab-pane fade">
+        <h3>Executive summaries</h3>
+
+        <ul class="list-group">
+            <li class="list-group-item">Executive summary 1</li>
+            <li class="list-group-item">Executive summary 2</li>
+            <li class="list-group-item">Executive summary 3</li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
