@@ -72,8 +72,14 @@ WSGI_APPLICATION = 'brokerproject.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 import dj_database_url
 
-DATABASES = dict()
-DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'), ssl_require=False)
+# DATABASES = dict()
+# DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'), ssl_require=False)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'broker_sql_lite',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
