@@ -72,19 +72,9 @@ WSGI_APPLICATION = 'brokerproject.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 import dj_database_url
 
-DATABASE = dict()
+DATABASES = dict()
 DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'), ssl_require=False)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'broker_app',
-#         'USER': 'broker_app_user',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#         'OPTIONS': {'sslmode': 'disable'}
-#     }
-# }
+
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
