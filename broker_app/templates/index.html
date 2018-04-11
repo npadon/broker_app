@@ -19,12 +19,12 @@
             <li class="list-group-item">Requirements 3</li>
         </ul>
     </div>
-    <div id="surveys" class="tab-pane fade in active">
+    <div id="surveys" class="tab-pane fade">
         <h3>Surveys</h3>
         <ul class="list-group">
-            <li class="list-group-item">Survey 1</li>
-            <li class="list-group-item">Survey 2</li>
-            <li class="list-group-item">Survey 3</li>
+            {% for survey in surveys %}
+            <a href="admin/broker_app/survey/{{ survey.id }}/change/" class="list-group-item">{{ survey.building_name}}</a>
+            {% endfor %}
         </ul>
     </div>
     <div id="tourbooks" class="tab-pane fade">

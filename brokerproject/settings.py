@@ -70,14 +70,14 @@ WSGI_APPLICATION = 'brokerproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-import dj_database_url
-
-# DATABASES = dict()
-# DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'), ssl_require=False)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'broker_sql_lite',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'broker_app',
+        'USER': 'broker_app_user',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -99,7 +99,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 # Login
-
+LOGIN_URL = 'login/'
+LOGOUT_URL = 'logout/'
 LOGIN_REDIRECT_URL = '/'
 
 # Internationalization
@@ -125,5 +126,5 @@ STATICFILES_DIRS = (
 )
 
 # Activate Django-Heroku.
-import django_heroku
-django_heroku.settings(locals())
+# import django_heroku
+# django_heroku.settings(locals())
