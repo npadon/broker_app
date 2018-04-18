@@ -13,17 +13,18 @@ def index(request):
     context = {'surveys': surveys, }
     return render(request, 'index.html', context)
 
+
 @login_required
 class SurveyDetailView(DetailView):
     model = Survey
     template_name = 'list_surveys.html'
 
-@login_required
+
 class SurveyCreate(CreateView):
     model = Survey
     fields = ['building_name', 'building_address', 'zipcode']
 
-@login_required
+
 class SurveyUpdate(UpdateView):
     model = Survey
     fields = ['building_name', 'building_address', 'zipcode']
@@ -32,7 +33,7 @@ class SurveyUpdate(UpdateView):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 
-@login_required
+
 class SurveyDelete(DeleteView):
     model = Survey
     success_url = reverse_lazy('index')
