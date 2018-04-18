@@ -23,9 +23,15 @@
         <h3>Surveys</h3>
         <ul class="list-group">
             {% for survey in surveys %}
-            <a href="admin/broker_app/survey/{{ survey.id }}/change/" class="list-group-item">{{ survey.building_name}}</a>
+            <li class="list-group-item">{{ survey.building_name}}</li>
+            <a href="#" class="btn btn-default btn-sm" role="button">
+                <span class="glyphicon glyphicon-remove"></span> Delete
+            </a>
             {% endfor %}
         </ul>
+        <button type="button" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-plus"></span> Add
+        </button>
     </div>
     <div id="tourbooks" class="tab-pane fade">
         <h3>Tour books</h3>
