@@ -1,17 +1,17 @@
-{% extends "base.html" %}
+{% extends "broker_app\base.html" %}
 
 {% block content %}
 
 <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#requirements">Requirements</a></li>
-    <li><a data-toggle="tab" href="#surveys">Surveys</a></li>
+    <li><a data-toggle="tab" href="#requirements">Requirements</a></li>
+    <li class="active"><a data-toggle="tab" href="#surveys">Surveys</a></li>
     <li><a data-toggle="tab" href="#tourbooks">Tour books</a></li>
     <li><a data-toggle="tab" href="#executivesummaries">Executive summaries</a></li>
 </ul>
 
 <div class="tab-content">
 
-    <div id="requirements" class="tab-pane fade in active">
+    <div id="requirements" class="tab-pane fade container-fluid">
         <h3>Requirements</h3>
         <ul class="list-group">
             <li class="list-group-item">Requirements 1</li>
@@ -19,21 +19,23 @@
             <li class="list-group-item">Requirements 3</li>
         </ul>
     </div>
-    <div id="surveys" class="tab-pane fade">
+    <div id="surveys" class="tab-pane fade in active container-fluid">
         <h3>Surveys</h3>
         <ul class="list-group">
             {% for survey in surveys %}
-            <li class="list-group-item">{{ survey.building_name}}</li>
-            <a href="#" class="btn btn-default btn-sm" role="button">
-                <span class="glyphicon glyphicon-remove"></span> Delete
-            </a>
+            <li class="list-group-item row">
+                <a href="{% url 'survey-update' survey.id%}">{{ survey.building_name}}</a>
+                <a href="{% url 'survey-delete' survey.id%}" class="btn btn-danger btn-sm pull-right" role="button">
+                    <span class="glyphicon glyphicon-remove"></span> Delete
+                </a>
+            </li>
             {% endfor %}
         </ul>
-        <button type="button" class="btn btn-default btn-sm">
+        <a href="{% url 'survey-add'%}" role="button" class="btn btn-success btn-sm">
             <span class="glyphicon glyphicon-plus"></span> Add
-        </button>
+        </a>
     </div>
-    <div id="tourbooks" class="tab-pane fade">
+    <div id="tourbooks" class="tab-pane fade container-fluid">
         <h3>Tour books</h3>
         <ul class="list-group">
             <li class="list-group-item">Tour book 1</li>
@@ -41,7 +43,7 @@
             <li class="list-group-item">Tour book 3</li>
         </ul>
     </div>
-    <div id="executivesummaries" class="tab-pane fade">
+    <div id="executivesummaries" class="tab-pane fade container-fluid">
         <h3>Executive summaries</h3>
 
         <ul class="list-group">

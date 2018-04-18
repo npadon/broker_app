@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Survey
@@ -11,13 +10,7 @@ from .models import Survey
 def index(request):
     surveys = Survey.objects.order_by('building_name')[:5]
     context = {'surveys': surveys, }
-    return render(request, 'index.html', context)
-
-
-@login_required
-class SurveyDetailView(DetailView):
-    model = Survey
-    template_name = 'list_surveys.html'
+    return render(request, 'broker_app\index.html', context)
 
 
 class SurveyCreate(CreateView):
