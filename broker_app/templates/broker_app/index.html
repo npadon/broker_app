@@ -14,10 +14,19 @@
     <div id="requirements" class="tab-pane fade container-fluid">
         <h3>Requirements</h3>
         <ul class="list-group">
-            <li class="list-group-item">Requirements 1</li>
-            <li class="list-group-item">Requirements 2</li>
-            <li class="list-group-item">Requirements 3</li>
+            {% for requirement in requirements%}
+            <li class="list-group-item row">
+                <a href="{% url 'requirement-update' requirement.id%}">{{ requirement }}</a>
+                <a href="{% url 'requirement-delete' requirement.id%}" class="btn btn-danger btn-sm pull-right"
+                   role="button">
+                    <span class="glyphicon glyphicon-remove"></span> Delete
+                </a>
+            </li>
+            {% endfor %}
         </ul>
+        <a href="{% url 'requirement-add'%}" role="button" class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-plus"></span> Add
+        </a>
     </div>
     <div id="surveys" class="tab-pane fade in active container-fluid">
         <h3>Surveys</h3>
@@ -38,19 +47,36 @@
     <div id="tourbooks" class="tab-pane fade container-fluid">
         <h3>Tour books</h3>
         <ul class="list-group">
-            <li class="list-group-item">Tour book 1</li>
-            <li class="list-group-item">Tour book 2</li>
-            <li class="list-group-item">Tour book 3</li>
+            {% for tour_book in tour_books %}
+            <li class="list-group-item row">
+                <a href="{% url 'tourbook-update' tourbook.id%}">{{ tour_book}}</a>
+                <a href="{% url 'tourbook-delete' tourbook.id%}" class="btn btn-danger btn-sm pull-right" role="button">
+                    <span class="glyphicon glyphicon-remove"></span> Delete
+                </a>
+            </li>
+            {% endfor %}
         </ul>
+        <a href="{% url 'tourbook-add'%}" role="button" class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-plus"></span> Add
+        </a>
     </div>
     <div id="executivesummaries" class="tab-pane fade container-fluid">
         <h3>Executive summaries</h3>
 
         <ul class="list-group">
-            <li class="list-group-item">Executive summary 1</li>
-            <li class="list-group-item">Executive summary 2</li>
-            <li class="list-group-item">Executive summary 3</li>
+            {% for exec_summary in executive_summaries%}
+            <li class="list-group-item row">
+                <a href="{% url 'executivesummary-update' executivesummary.id%}">{{ executivesummary}}</a>
+                <a href="{% url 'executivesummary-delete' executivesummary.id%}"
+                   class="btn btn-danger btn-sm pull-right" role="button">
+                    <span class="glyphicon glyphicon-remove"></span> Delete
+                </a>
+            </li>
+            {% endfor %}
         </ul>
+        <a href="{% url 'executivesummary-add'%}" role="button" class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-plus"></span> Add
+        </a>
     </div>
 </div>
 
