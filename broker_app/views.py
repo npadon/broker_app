@@ -17,7 +17,7 @@ def index(request):
                'requirements': requirements,
                'tour_books': tour_books,
                'executive_summaries': executive_summaries}
-    return render(request, 'broker_app\index.html', context)
+    return render(request, 'broker_app/index.html', context)
 
 
 # Surveys
