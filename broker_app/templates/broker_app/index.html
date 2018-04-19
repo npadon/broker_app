@@ -49,8 +49,8 @@
         <ul class="list-group">
             {% for tour_book in tour_books %}
             <li class="list-group-item row">
-                <a href="{% url 'tourbook-update' tourbook.id%}">{{ tour_book}}</a>
-                <a href="{% url 'tourbook-delete' tourbook.id%}" class="btn btn-danger btn-sm pull-right" role="button">
+                <a href="{% url 'tourbook-update' tour_book.id%}">{{ tour_book}}</a>
+                <a href="{% url 'tourbook-delete' tour_book.id%}" class="btn btn-danger btn-sm pull-right" role="button">
                     <span class="glyphicon glyphicon-remove"></span> Delete
                 </a>
             </li>
@@ -66,8 +66,8 @@
         <ul class="list-group">
             {% for exec_summary in executive_summaries%}
             <li class="list-group-item row">
-                <a href="{% url 'executivesummary-update' executivesummary.id%}">{{ executivesummary}}</a>
-                <a href="{% url 'executivesummary-delete' executivesummary.id%}"
+                <a href="{% url 'executivesummary-update' exec_summary.id%}">{{ exec_summary}}</a>
+                <a href="{% url 'executivesummary-delete' exec_summary.id%}"
                    class="btn btn-danger btn-sm pull-right" role="button">
                     <span class="glyphicon glyphicon-remove"></span> Delete
                 </a>

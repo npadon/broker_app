@@ -43,7 +43,7 @@ class Requirement(models.Model):
 
 class TourBook(models.Model):
     tour_title = models.CharField(max_length=255)
-    tour_date = models.DateField(auto_now=True)
+    tour_date = models.DateField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):

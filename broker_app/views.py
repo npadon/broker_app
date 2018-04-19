@@ -87,7 +87,7 @@ class ExecutiveSummaryCreate(CreateView):
 
 
 class ExecutiveSummaryUpdate(UpdateView):
-    model = TourBook
+    model = ExecutiveSummary
     fields = ['title', 'notes']
 
     def form_valid(self, form):
@@ -96,5 +96,5 @@ class ExecutiveSummaryUpdate(UpdateView):
 
 
 class ExecutiveSummaryDelete(DeleteView):
-    model = TourBook
+    model = ExecutiveSummary
     success_url = reverse_lazy('index')
