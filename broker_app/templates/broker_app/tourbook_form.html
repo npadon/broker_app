@@ -2,7 +2,11 @@
 {% block content %}
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save"/>
+    <table>
+        {{ form.as_table }}
+    </table>
+    <br>
+    <input type="submit" class="btn btn-info" value="Save"/>
+    <a href="{% url 'tourbook-pdf' object.id%}" class="btn btn-danger" role="button">Generate PDF</a>
 </form>
 {% endblock %}

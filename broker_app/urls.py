@@ -3,6 +3,7 @@ from broker_app.views import index, SurveyCreate, SurveyUpdate, SurveyDelete, Re
     ExecutiveSummaryUpdate
 from django.contrib.auth import views as auth_views
 from django.urls import path
+from .tourbook_pdf import tourbook_pdf_view
 
 urlpatterns = [
     path('', index, name='index'),
@@ -19,6 +20,7 @@ urlpatterns = [
     path('tourbook/<int:pk>/delete/', TourBookDelete.as_view(), name='tourbook-delete'),
     path('executivesummary/add/', ExecutiveSummaryCreate.as_view(), name='executivesummary-add'),
     path('executivesummary/<int:pk>/', ExecutiveSummaryUpdate.as_view(), name='executivesummary-update'),
-    path('executivesummary/<int:pk>/delete/', ExecutiveSummaryDelete.as_view(), name='executivesummary-delete')
+    path('executivesummary/<int:pk>/delete/', ExecutiveSummaryDelete.as_view(), name='executivesummary-delete'),
+    path('tourbook_pdf/<int:pk>/', tourbook_pdf_view, name='tourbook-pdf')
 
 ]
