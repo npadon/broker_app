@@ -150,9 +150,13 @@ def tourbook_ppt_view(request, pk):
     tour_book = get_object_or_404(TourBook, pk=pk)
     response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.presentationml.presentation")
     response['Content-Disposition'] = 'attachment; filename="tourbook_{}.pptx"'.format(pk)
-    tour_book_ppt = TourBookPPT(tour_book)
-    ppt = tour_book_ppt.generate_ppt()
-    response.write(ppt)
+
+    buffer = BytesIO()
+    tour_book_ppt = TourBookPPT(buffer, tour_book)
+
+    ppt_buffer = tour_book_ppt.generate_ppt()
+
+    response.write(ppt_buffer.getvalue())
     return response
 
 

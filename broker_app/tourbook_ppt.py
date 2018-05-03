@@ -2,7 +2,8 @@ from pptx import Presentation
 
 
 class TourBookPPT:
-    def __init__(self, tour_book):
+    def __init__(self, buffer, tour_book):
+        self.buffer = buffer
         self.tour_book = tour_book
 
     def generate_ppt(self):
@@ -28,5 +29,6 @@ class TourBookPPT:
         p.text = 'Use _TextFrame.add_paragraph() for subsequent bullets'
         p.level = 2
 
-        # prs.save('test.pptx')
-        return prs
+        prs.save(self.buffer)
+        self.buffer.close()
+        return self.buffer
