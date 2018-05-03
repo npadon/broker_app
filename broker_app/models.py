@@ -64,7 +64,7 @@ class Survey(models.Model):
 
 class Requirement(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
-    
+
     furniture_choices = (('Y', 'Y'), ('N', 'N'))
     lease_or_purchase_choices = (('Lease', 'Lease'), ('Purchase', 'Purchase'))
 
@@ -73,14 +73,14 @@ class Requirement(models.Model):
     commencement_date = models.DateField(auto_now=True)
     term_length_YRS = models.FloatField()
 
-    submarket_A = models.NullBooleanField(widget=CheckboxInput)
-    submarket_B = models.NullBooleanField(widget=CheckboxInput)
-    submarket_C = models.NullBooleanField(widget=CheckboxInput)
-    submarket_D = models.NullBooleanField(widget=CheckboxInput)
+    submarket_A = models.NullBooleanField()
+    submarket_B = models.NullBooleanField()
+    submarket_C = models.NullBooleanField()
+    submarket_D = models.NullBooleanField()
 
-    building_class_A = models.NullBooleanField(widget=CheckboxInput)
-    building_class_B = models.NullBooleanField(widget=CheckboxInput)
-    building_class_C = models.NullBooleanField(widget=CheckboxInput)
+    building_class_A = models.NullBooleanField()
+    building_class_B = models.NullBooleanField()
+    building_class_C = models.NullBooleanField()
 
     minimum_rsf = models.FloatField()
     maximum_rsf = models.FloatField(null=True, blank=True)
