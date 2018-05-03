@@ -156,7 +156,7 @@ def tourbook_ppt_view(request, pk):
 
     ppt_buffer = tour_book_ppt.generate_ppt()
 
-    response.write(ppt_buffer.getvalue())
+    response.write(ppt_buffer)
     return response
 
 

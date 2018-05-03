@@ -1,8 +1,9 @@
 from pptx import Presentation
+from .models import TourBook
 
 
 class TourBookPPT:
-    def __init__(self, buffer, tour_book):
+    def __init__(self, buffer, tour_book: TourBook):
         self.buffer = buffer
         self.tour_book = tour_book
 
@@ -16,19 +17,17 @@ class TourBookPPT:
         title_shape = shapes.title
         body_shape = shapes.placeholders[1]
 
-        title_shape.text = 'Adding a Bullet Slide'
+        title_shape.text = self.tour_book.tour_title
 
         tf = body_shape.text_frame
-        tf.text = 'Find the bullet slide layout'
+        tf.text = 'Surveys for tour:'
 
-        p = tf.add_paragraph()
-        p.text = 'Use _TextFrame.text for first bullet'
-        p.level = 1
-
-        p = tf.add_paragraph()
-        p.text = 'Use _TextFrame.add_paragraph() for subsequent bullets'
-        p.level = 2
+        for survey in self.tour_book.surveys.all():
+            p = tf.add_paragraph()
+            p.text = survey.building_name
+            p.level = 1
 
         prs.save(self.buffer)
+        buffer_value = self.buffer.getvalue()
         self.buffer.close()
-        return self.buffer
+        return buffer_value

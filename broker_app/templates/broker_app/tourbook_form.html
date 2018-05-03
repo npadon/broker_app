@@ -7,7 +7,6 @@
     </table>
     <br>
     <input type="submit" class="btn btn-info" value="Save"/>
-    <a href="{% url 'tourbook-pdf' object.id%}" class="btn btn-danger" role="button">Generate PDF</a>
     <a href="{% url 'tourbook-ppt' object.id%}" class="btn btn-danger" role="button">Generate PPT</a>
 </form>
 {% endblock %}

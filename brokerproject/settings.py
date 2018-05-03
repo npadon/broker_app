@@ -127,6 +127,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+
+AWS_ACCESS_KEY_ID = 'AKIAJKE7EH6JKAMAS2TQ'
+AWS_SECRET_ACCESS_KEY = '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'
+
 AWS_STORAGE_BUCKET_NAME = 'brokerproject'
 AWS_S3_CUSTOM_DOMAIN = '{}.s3.us-east-2.amazonaws.com'.format(AWS_STORAGE_BUCKET_NAME)
 
@@ -137,5 +141,5 @@ AWS_LOCATION = 'static'
 DEFAULT_FILE_STORAGE = 'broker_app.storage_backends.MediaStorage'
 
 # Activate Django-Heroku.
-# import django_heroku
-# django_heroku.settings(locals())
+import django_heroku
+django_heroku.settings(locals())
