@@ -71,7 +71,7 @@ class Requirement(models.Model):
     name_of_tenant = models.CharField(max_length=255)
     type_of_tenant = models.CharField(max_length=255)
     commencement_date = models.DateField(auto_now=True)
-    term_length_YRS = models.FloatField()
+    term_length_YRS = models.FloatField(default=0)
 
     submarket_A = models.NullBooleanField()
     submarket_B = models.NullBooleanField()
@@ -82,10 +82,11 @@ class Requirement(models.Model):
     building_class_B = models.NullBooleanField()
     building_class_C = models.NullBooleanField()
 
-    minimum_rsf = models.FloatField()
+    minimum_rsf = models.FloatField(default=0)
     maximum_rsf = models.FloatField(null=True, blank=True)
     lease_or_purchase = models.CharField(max_length=10, choices=lease_or_purchase_choices, default='Lease')
-    desired_percentage_offices_PCT = models.FloatField(validators=[MaxValueValidator(1.1), MinValueValidator(-.1)])
+    desired_percentage_offices_PCT = models.FloatField(validators=[MaxValueValidator(1.1), MinValueValidator(-.1)],
+                                                       default=0)
     needs_furniture = models.CharField(max_length=2, choices=furniture_choices, default='N')
     notes = models.TextField(null=True, blank=True)
 
