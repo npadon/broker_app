@@ -1,6 +1,6 @@
 from broker_app.views import index, SurveyCreate, SurveyUpdate, SurveyDelete, RequirementsCreate, RequirementsDelete, \
     RequirementsUpdate, TourBookCreate, TourBookUpdate, TourBookDelete, ExecutiveSummaryCreate, ExecutiveSummaryDelete, \
-    ExecutiveSummaryUpdate, tourbook_pdf_view
+    ExecutiveSummaryUpdate, tourbook_pdf_view, MediaFileCreateView
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
@@ -20,6 +20,7 @@ urlpatterns = [
     path('executivesummary/add/', ExecutiveSummaryCreate.as_view(), name='executivesummary-add'),
     path('executivesummary/<int:pk>/', ExecutiveSummaryUpdate.as_view(), name='executivesummary-update'),
     path('executivesummary/<int:pk>/delete/', ExecutiveSummaryDelete.as_view(), name='executivesummary-delete'),
-    path('tourbook_pdf/<int:pk>/', tourbook_pdf_view, name='tourbook-pdf')
+    path('tourbook_pdf/<int:pk>/', tourbook_pdf_view, name='tourbook-pdf'),
+    path('media_upload/', MediaFileCreateView.as_view(), name='media-upload')
 
 ]
