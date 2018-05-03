@@ -63,7 +63,7 @@ class Survey(models.Model):
 
 
 class Requirement(models.Model):
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=1)
 
     furniture_choices = (('Y', 'Y'), ('N', 'N'))
     lease_or_purchase_choices = (('Lease', 'Lease'), ('Purchase', 'Purchase'))
