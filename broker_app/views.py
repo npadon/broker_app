@@ -51,6 +51,28 @@ survey_fields = ['building_name',
                  'building_capital_improvements',
                  'other_notes']
 
+requirement_fields = ['survey',
+                      'furniture_choices',
+                      'lease_or_purchase_choices',
+                      'name_of_tenant',
+                      'type_of_tenant',
+                      'commencement_date',
+                      'term_length_YRS',
+                      'submarket_A',
+                      'submarket_B',
+                      'submarket_C',
+                      'submarket_D',
+                      'building_class_A',
+                      'building_class_B',
+                      'building_class_C',
+                      'minimum_rsf',
+                      'maximum_rsf',
+                      'lease_or_purchase',
+                      'desired_percentage_offices_PCT',
+                      'needs_furniture',
+                      'notes',
+                      ]
+
 
 # Surveys
 class SurveyCreate(CreateView):
@@ -75,12 +97,12 @@ class SurveyDelete(DeleteView):
 # Requirements
 class RequirementsCreate(CreateView):
     model = Requirement
-    fields = ['name_of_tenant', 'type_of_tenant', 'building_class', 'minimum_rsf', 'maximum_rsf']
+    fields = requirement_fields
 
 
 class RequirementsUpdate(UpdateView):
     model = Requirement
-    fields = ['name_of_tenant', 'type_of_tenant', 'building_class', 'minimum_rsf', 'maximum_rsf']
+    fields = requirement_fields
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user

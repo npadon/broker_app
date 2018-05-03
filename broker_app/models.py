@@ -1,8 +1,9 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.core.validators import int_list_validator, MaxValueValidator, MinValueValidator
 from django.db import models
 from django.shortcuts import reverse
-from django.forms.widgets import CheckboxInput
 
 
 class MediaUpload(models.Model):
@@ -70,7 +71,7 @@ class Requirement(models.Model):
 
     name_of_tenant = models.CharField(max_length=255)
     type_of_tenant = models.CharField(max_length=255)
-    commencement_date = models.DateField(auto_now=True)
+    commencement_date = models.DateField(default=datetime.date.today())
     term_length_YRS = models.FloatField(default=0)
 
     submarket_A = models.NullBooleanField()
