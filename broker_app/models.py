@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
+from django.core.validators import int_list_validator, MaxValueValidator, MinValueValidator
 from django.db import models
 from django.shortcuts import reverse
-from django.core.validators import int_list_validator, MaxValueValidator, MinValueValidator
+from django.forms.widgets import CheckboxInput
 
 
 class MediaUpload(models.Model):
@@ -62,20 +63,32 @@ class Survey(models.Model):
 
 
 class Requirement(models.Model):
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    
+    furniture_choices = (('Y', 'Y'), ('N', 'N'))
+    lease_or_purchase_choices = (('Lease', 'Lease'), ('Purchase', 'Purchase'))
+
     name_of_tenant = models.CharField(max_length=255)
     type_of_tenant = models.CharField(max_length=255)
+    commencement_date = models.DateField(auto_now=True)
+    term_length_YRS = models.FloatField()
 
-    building_size_choices = (('A', 'Class A'),
-                             ('B', 'Class B'),
-                             ('C', 'Class C'),
-                             ('Any', 'Any'))
-    building_class = models.CharField(
-        max_length=3,
-        choices=building_size_choices,
-        default='Any',
-    )
+    submarket_A = models.NullBooleanField(widget=CheckboxInput)
+    submarket_B = models.NullBooleanField(widget=CheckboxInput)
+    submarket_C = models.NullBooleanField(widget=CheckboxInput)
+    submarket_D = models.NullBooleanField(widget=CheckboxInput)
+
+    building_class_A = models.NullBooleanField(widget=CheckboxInput)
+    building_class_B = models.NullBooleanField(widget=CheckboxInput)
+    building_class_C = models.NullBooleanField(widget=CheckboxInput)
+
     minimum_rsf = models.FloatField()
-    maximum_rsf = models.FloatField(null=True)
+    maximum_rsf = models.FloatField(null=True, blank=True)
+    lease_or_purchase = models.CharField(max_length=10, choices=lease_or_purchase_choices, default='Lease')
+    desired_percentage_offices_PCT = models.FloatField(validators=[MaxValueValidator(1.1), MinValueValidator(-.1)])
+    needs_furniture = models.CharField(max_length=2, choices=furniture_choices, default='N')
+    notes = models.TextField(null=True, blank=True)
+
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
