@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Survey, Requirement, TourBook, ExecutiveSummary, MediaUpload
 from .tourbook_pdf import TourBookPDF
+from .tourbook_ppt import TourBookPPT
 
 
 @login_required
@@ -141,6 +142,17 @@ def tourbook_pdf_view(request, pk):
     # Create the PDF object, using the BytesIO object as its "file."
     pdf = TourBookPDF(buffer, 'Letter', tour_book).generate_pdf()
     response.write(pdf)
+    return response
+
+
+@login_required
+def tourbook_ppt_view(request, pk):
+    tour_book = get_object_or_404(TourBook, pk=pk)
+    response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.presentationml.presentation")
+    response['Content-Disposition'] = 'attachment; filename="tourbook_{}.pptx"'.format(pk)
+    tour_book_ppt = TourBookPPT(tour_book)
+    ppt = tour_book_ppt.generate_ppt()
+    response.write(ppt)
     return response
 
 
