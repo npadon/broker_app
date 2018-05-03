@@ -1,9 +1,14 @@
+from io import BytesIO
+
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .models import Survey, Requirement, TourBook, ExecutiveSummary
+from .models import Survey, Requirement, TourBook, ExecutiveSummary, MediaUpload
+from .tourbook_pdf import TourBookPDF
+
 
 @login_required
 def index(request):
@@ -124,3 +129,28 @@ class ExecutiveSummaryUpdate(UpdateView):
 class ExecutiveSummaryDelete(DeleteView):
     model = ExecutiveSummary
     success_url = reverse_lazy('index')
+
+
+@login_required
+def tourbook_pdf_view(request, pk):
+    tour_book = get_object_or_404(TourBook, pk=pk)
+    # Create the HttpResponse object with the appropriate PDF headers.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="tourbook{}.pdf"'.format(pk)
+    buffer = BytesIO()
+    # Create the PDF object, using the BytesIO object as its "file."
+    pdf = TourBookPDF(buffer, 'Letter', tour_book).generate_pdf()
+    response.write(pdf)
+    return response
+
+
+class MediaFileCreateView(CreateView):
+    model = MediaUpload
+    fields = ['upload', ]
+    success_url = reverse_lazy('index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        media_files = MediaUpload.objects.all()
+        context['media_files'] = media_files
+        return context

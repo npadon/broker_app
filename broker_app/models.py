@@ -4,7 +4,11 @@ from django.shortcuts import reverse
 from django.core.validators import int_list_validator, MaxValueValidator, MinValueValidator
 
 
-# Create your models here.
+class MediaUpload(models.Model):
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    upload = models.FileField()
+
+
 class Survey(models.Model):
     gross_net_bases = (('Gross', 'Gross'), ('Net', 'Net'))
 

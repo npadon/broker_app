@@ -1,9 +1,8 @@
 from broker_app.views import index, SurveyCreate, SurveyUpdate, SurveyDelete, RequirementsCreate, RequirementsDelete, \
     RequirementsUpdate, TourBookCreate, TourBookUpdate, TourBookDelete, ExecutiveSummaryCreate, ExecutiveSummaryDelete, \
-    ExecutiveSummaryUpdate
+    ExecutiveSummaryUpdate, tourbook_pdf_view
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from .tourbook_pdf import tourbook_pdf_view
 
 urlpatterns = [
     path('', index, name='index'),
