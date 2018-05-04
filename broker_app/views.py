@@ -183,7 +183,7 @@ def tourbook_ppt_view(request, pk):
 
 class MediaFileCreateView(CreateView):
     model = MediaUpload
-    fields = ['upload', ]
+    fields = ['upload', 'survey']
     success_url = reverse_lazy('index')
 
     def get_context_data(self, **kwargs):

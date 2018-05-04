@@ -7,6 +7,7 @@ from django.shortcuts import reverse
 class MediaUpload(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     upload = models.FileField()
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE())
 
 
 class Requirement(models.Model):

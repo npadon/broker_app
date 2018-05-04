@@ -12,6 +12,7 @@
     <thead>
     <tr>
         <th>Name</th>
+        <th>Survey</th>
         <th>Uploaded at</th>
         <th>Size</th>
     </tr>
@@ -20,6 +21,7 @@
     {% for media_file in media_files%}
     <tr>
         <td><a href="{{ media_files.upload.url }}" target="_blank">{{ media_file.upload.name }}</a></td>
+        <td><a href="{{ media_files.upload.url }}" target="_blank">{{ media_file.survey }}</a></td>
         <td>{{ media_file.uploaded_at }}</td>
         <td>{{ media_file.upload.size|filesizeformat }}</td>
     </tr>
