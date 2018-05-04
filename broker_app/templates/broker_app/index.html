@@ -50,9 +50,15 @@
             {% for tour_book in tour_books %}
             <li class="list-group-item row">
                 <a href="{% url 'tourbook-update' tour_book.id%}">{{ tour_book}}</a>
-                <a href="{% url 'tourbook-delete' tour_book.id%}" class="btn btn-danger btn-sm pull-right" role="button">
-                    <span class="glyphicon glyphicon-remove"></span> Delete
-                </a>
+                <span class="pull-right">
+                    <a href="{% url 'tourbook-ppt' tour_book.id%}" class="btn btn-sm btn-info" role="button">
+                        Generate PPT
+                    </a>
+                    <a href="{% url 'tourbook-delete' tour_book.id%}" class="btn btn-danger btn-sm" role="button">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </a>
+                </span>
+
             </li>
             {% endfor %}
         </ul>

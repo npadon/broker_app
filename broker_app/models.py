@@ -1,5 +1,3 @@
-import datetime
-
 from django.contrib.auth.models import User
 from django.core.validators import int_list_validator, MaxValueValidator, MinValueValidator
 from django.db import models
@@ -11,8 +9,45 @@ class MediaUpload(models.Model):
     upload = models.FileField()
 
 
+class Requirement(models.Model):
+    furniture_choices = (('Y', 'Y'), ('N', 'N'))
+    lease_or_purchase_choices = (('Lease', 'Lease'), ('Purchase', 'Purchase'))
+
+    name_of_tenant = models.CharField(max_length=255)
+    type_of_tenant = models.CharField(max_length=255)
+    commencement_date = models.DateField()
+    term_length_YRS = models.FloatField(default=0)
+
+    submarket_A = models.NullBooleanField()
+    submarket_B = models.NullBooleanField()
+    submarket_C = models.NullBooleanField()
+    submarket_D = models.NullBooleanField()
+
+    building_class_A = models.NullBooleanField()
+    building_class_B = models.NullBooleanField()
+    building_class_C = models.NullBooleanField()
+
+    minimum_rsf = models.FloatField(default=0)
+    maximum_rsf = models.FloatField(null=True, blank=True)
+    lease_or_purchase = models.CharField(max_length=10, choices=lease_or_purchase_choices, default='Lease')
+    desired_percentage_offices_PCT = models.FloatField(validators=[MaxValueValidator(1.1), MinValueValidator(-.1)],
+                                                       default=0)
+    needs_furniture = models.CharField(max_length=2, choices=furniture_choices, default='N')
+    notes = models.TextField(null=True, blank=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+
+    def __str__(self):
+        return self.name_of_tenant
+
+    def get_absolute_url(self):
+        return reverse('index')
+
+
 class Survey(models.Model):
     gross_net_bases = (('Gross', 'Gross'), ('Net', 'Net'))
+
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
 
     building_name = models.CharField(max_length=255, null=False, default='default_building')
     building_address = models.CharField(max_length=255, null=False, default='default_address')
@@ -58,43 +93,6 @@ class Survey(models.Model):
 
     def __str__(self):
         return self.building_name
-
-    def get_absolute_url(self):
-        return reverse('index')
-
-
-class Requirement(models.Model):
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, default=1)
-
-    furniture_choices = (('Y', 'Y'), ('N', 'N'))
-    lease_or_purchase_choices = (('Lease', 'Lease'), ('Purchase', 'Purchase'))
-
-    name_of_tenant = models.CharField(max_length=255)
-    type_of_tenant = models.CharField(max_length=255)
-    commencement_date = models.DateField(default=datetime.date.today())
-    term_length_YRS = models.FloatField(default=0)
-
-    submarket_A = models.NullBooleanField()
-    submarket_B = models.NullBooleanField()
-    submarket_C = models.NullBooleanField()
-    submarket_D = models.NullBooleanField()
-
-    building_class_A = models.NullBooleanField()
-    building_class_B = models.NullBooleanField()
-    building_class_C = models.NullBooleanField()
-
-    minimum_rsf = models.FloatField(default=0)
-    maximum_rsf = models.FloatField(null=True, blank=True)
-    lease_or_purchase = models.CharField(max_length=10, choices=lease_or_purchase_choices, default='Lease')
-    desired_percentage_offices_PCT = models.FloatField(validators=[MaxValueValidator(1.1), MinValueValidator(-.1)],
-                                                       default=0)
-    needs_furniture = models.CharField(max_length=2, choices=furniture_choices, default='N')
-    notes = models.TextField(null=True, blank=True)
-
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-
-    def __str__(self):
-        return self.name_of_tenant
 
     def get_absolute_url(self):
         return reverse('index')
