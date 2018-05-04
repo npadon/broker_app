@@ -4,12 +4,6 @@ from django.db import models
 from django.shortcuts import reverse
 
 
-class MediaUpload(models.Model):
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    upload = models.FileField()
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE())
-
-
 class Requirement(models.Model):
     furniture_choices = (('Y', 'Y'), ('N', 'N'))
     lease_or_purchase_choices = (('Lease', 'Lease'), ('Purchase', 'Purchase'))
@@ -97,6 +91,15 @@ class Survey(models.Model):
 
     def get_absolute_url(self):
         return reverse('index')
+
+
+class MediaUpload(models.Model):
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    upload = models.FileField()
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.upload.name
 
 
 class TourBook(models.Model):

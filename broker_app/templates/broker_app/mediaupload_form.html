@@ -15,22 +15,24 @@
         <th>Survey</th>
         <th>Uploaded at</th>
         <th>Size</th>
+        <th>Delete</th>
     </tr>
     </thead>
     <tbody>
     {% for media_file in media_files%}
     <tr>
-        <td><a href="{{ media_files.upload.url }}" target="_blank">{{ media_file.upload.name }}</a></td>
-        <td><a href="{{ media_files.upload.url }}" target="_blank">{{ media_file.survey }}</a></td>
+        <td><a href="{{ media_file.upload.url }}" target="_blank">{{ media_file.upload.name }}</a></td>
+        <td>{{ media_file.survey }}</td>
         <td>{{ media_file.uploaded_at }}</td>
         <td>{{ media_file.upload.size|filesizeformat }}</td>
+        <td><a href="{% url 'media-delete' media_file.id %}" target="_blank">Delete</a></td>
     </tr>
     {% empty %}
     <tr>
-        <td colspan="3">No data.</td>
+        <td colspan="4">No data.</td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
 
-{% endblock content %}
+{% endblock %}

@@ -1,7 +1,8 @@
 from io import BytesIO
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.core.files.storage import default_storage
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -90,6 +91,8 @@ class SurveyUpdate(UpdateView):
 
 class SurveyDelete(DeleteView):
     model = Survey
+    template_name = 'broker_app\generic_confirm_delete.html'
+
     success_url = reverse_lazy('index')
 
 
@@ -110,6 +113,8 @@ class RequirementsUpdate(UpdateView):
 
 class RequirementsDelete(DeleteView):
     model = Requirement
+    template_name = 'broker_app\generic_confirm_delete.html'
+
     success_url = reverse_lazy('index')
 
 
@@ -130,6 +135,8 @@ class TourBookUpdate(UpdateView):
 
 class TourBookDelete(DeleteView):
     model = TourBook
+    template_name = 'broker_app\generic_confirm_delete.html'
+
     success_url = reverse_lazy('index')
 
 
@@ -150,6 +157,8 @@ class ExecutiveSummaryUpdate(UpdateView):
 
 class ExecutiveSummaryDelete(DeleteView):
     model = ExecutiveSummary
+    template_name = 'broker_app\generic_confirm_delete.html'
+
     success_url = reverse_lazy('index')
 
 
@@ -184,10 +193,31 @@ def tourbook_ppt_view(request, pk):
 class MediaFileCreateView(CreateView):
     model = MediaUpload
     fields = ['upload', 'survey']
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('media-upload')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         media_files = MediaUpload.objects.all()
         context['media_files'] = media_files
         return context
+
+
+class MediaFileDeleteView(DeleteView):
+    model = MediaUpload
+
+    # override delete method to additionally delete files from S3 after deleted from the Model
+    def delete(self, request, *args, **kwargs):
+        """
+        Call the delete() method on the fetched object and then redirect to the
+        success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        filename = self.object.upload.name
+        self.object.delete()
+        if default_storage.exists(filename):
+            default_storage.delete(filename)
+        return HttpResponseRedirect(success_url)
+
+    template_name = 'broker_app\generic_confirm_delete.html'
+    success_url = reverse_lazy('media-upload')
