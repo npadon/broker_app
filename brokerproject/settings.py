@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-from .private_settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+
+# from .private_settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -136,6 +137,9 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = 'static'
 DEFAULT_FILE_STORAGE = 'broker_app.storage_backends.MediaStorage'
 
+AWS_ACCESS_KEY_ID = 'AKIAI7PXOILKBY5JS5LA'
+AWS_SECRET_ACCESS_KEY = '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'
+
 # Activate Django-Heroku.
-# import django_heroku
-# django_heroku.settings(locals())
+import django_heroku
+django_heroku.settings(locals())
