@@ -5,6 +5,7 @@ from django.core.files.storage import default_storage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Survey, Requirement, TourBook, ExecutiveSummary, MediaUpload
@@ -192,18 +193,31 @@ def tourbook_ppt_view(request, pk):
 
 class MediaFileCreateView(CreateView):
     model = MediaUpload
-    fields = ['upload', 'survey']
-    success_url = reverse_lazy('media-upload')
+    fields = ['upload', 'upload_type']
+
+    def form_valid(self, form):
+        form.instance.survey = Survey.objects.get(pk=self.kwargs['survey_pk'])
+        return super(MediaFileCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        # this currently returns the user to the page where they were modifying the survey media
+        return self.request.POST['success_url']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        media_files = MediaUpload.objects.all()
+        context['survey_pk'] = self.kwargs.get('survey_pk')
+
+        # show only media objects related to this survey
+        media_files = MediaUpload.objects.filter(survey=context['survey_pk'])
         context['media_files'] = media_files
+
         return context
 
 
 class MediaFileDeleteView(DeleteView):
     model = MediaUpload
+
+    success_url = reverse_lazy('index')
 
     # override delete method to additionally delete files from S3 after deleted from the Model
     def delete(self, request, *args, **kwargs):
@@ -220,4 +234,3 @@ class MediaFileDeleteView(DeleteView):
         return HttpResponseRedirect(success_url)
 
     template_name = 'broker_app\generic_confirm_delete.html'
-    success_url = reverse_lazy('media-upload')

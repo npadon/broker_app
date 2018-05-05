@@ -4,15 +4,17 @@
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+    {{ form.as_table }}
+    <input type="hidden" name="success_url" value="{% url 'media-upload' survey_pk %}"/>
+    <button type="submit" class="btn btn-info">Upload</button>
 </form>
 
-<table>
+<table class="table">
     <thead>
     <tr>
         <th>Name</th>
         <th>Survey</th>
+        <th>Type</th>
         <th>Uploaded at</th>
         <th>Size</th>
         <th>Delete</th>
@@ -23,13 +25,14 @@
     <tr>
         <td><a href="{{ media_file.upload.url }}" target="_blank">{{ media_file.upload.name }}</a></td>
         <td>{{ media_file.survey }}</td>
+        <td>{{ media_file.upload_type }}</td>
         <td>{{ media_file.uploaded_at }}</td>
         <td>{{ media_file.upload.size|filesizeformat }}</td>
-        <td><a href="{% url 'media-delete' media_file.id %}" target="_blank">Delete</a></td>
+        <td><a href="{% url 'media-delete' media_file.id %}">Delete</a></td>
     </tr>
     {% empty %}
     <tr>
-        <td colspan="4">No data.</td>
+        <td colspan="5">No data.</td>
     </tr>
     {% endfor %}
     </tbody>

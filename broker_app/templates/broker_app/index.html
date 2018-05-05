@@ -34,9 +34,14 @@
             {% for survey in surveys %}
             <li class="list-group-item row">
                 <a href="{% url 'survey-update' survey.id%}">{{ survey.building_name}}</a>
-                <a href="{% url 'survey-delete' survey.id%}" class="btn btn-danger btn-sm pull-right" role="button">
-                    <span class="glyphicon glyphicon-remove"></span> Delete
-                </a>
+                 <span class="pull-right">
+                    <a href="{% url 'media-upload' survey.id%}" class="btn btn-sm btn-info" role="button">
+                        Add media
+                    </a>
+                    <a href="{% url 'survey-delete' survey.id%}" class="btn btn-danger btn-sm" role="button">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </a>
+                </span>
             </li>
             {% endfor %}
         </ul>

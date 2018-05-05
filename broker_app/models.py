@@ -95,6 +95,9 @@ class Survey(models.Model):
 
 class MediaUpload(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    upload_type_choices = (('Floorplan', 'Floorplan'), ('Image', 'Image'))
+    upload_type = models.CharField(max_length=15, choices=upload_type_choices, default='Image')
     upload = models.FileField()
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
 

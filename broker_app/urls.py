@@ -22,7 +22,6 @@ urlpatterns = [
     path('executivesummary/<int:pk>/delete/', ExecutiveSummaryDelete.as_view(), name='executivesummary-delete'),
     path('tourbook_pdf/<int:pk>/', tourbook_pdf_view, name='tourbook-pdf'),
     path('tourbook_ppt/<int:pk>/', tourbook_ppt_view, name='tourbook-ppt'),
-    path('media_upload/', MediaFileCreateView.as_view(), name='media-upload'),
-    path('media_delete/<int:pk>/delete/', MediaFileDeleteView.as_view(), name='media-delete')
-
+    path('media_upload/<int:survey_pk>/', MediaFileCreateView.as_view(), name='media-upload'),
+    path('media_delete/<int:pk>/delete/', MediaFileDeleteView.as_view(), name='media-delete'),
 ]
