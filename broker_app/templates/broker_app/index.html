@@ -30,21 +30,33 @@
     </div>
     <div id="surveys" class="tab-pane fade in active container-fluid">
         <h3>Surveys</h3>
-        <ul class="list-group">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Requirement</th>
+                <th>Building name</th>
+                <th>Response from</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for survey in surveys %}
-            <li class="list-group-item row">
-                <a href="{% url 'survey-update' survey.id%}">{{ survey.building_name}}</a>
-                 <span class="pull-right">
+            <tr>
+                <td>{{ survey.requirement}}</td>
+                <td><a href="{% url 'survey-update' survey.id%}">{{ survey.building_name}}</a></td>
+                <td>{{ survey.created_by}}</td>
+                <td>
                     <a href="{% url 'media-upload' survey.id%}" class="btn btn-sm btn-info" role="button">
                         Add media
                     </a>
                     <a href="{% url 'survey-delete' survey.id%}" class="btn btn-danger btn-sm" role="button">
                         <span class="glyphicon glyphicon-remove"></span> Delete
                     </a>
-                </span>
-            </li>
+                </td>
+            </tr>
             {% endfor %}
-        </ul>
+            </tbody>
+        </table>
         <a href="{% url 'survey-add'%}" role="button" class="btn btn-success btn-sm">
             <span class="glyphicon glyphicon-plus"></span> Add
         </a>
