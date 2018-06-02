@@ -1,6 +1,7 @@
-from broker_app.views import index, SurveyCreate, SurveyUpdate, SurveyDelete, RequirementsCreate, RequirementsDelete, \
+from broker_app.views import index, LandlordReponseCreate, LandlordResponseUpdate, LandlordResponseDelete, RequirementsCreate, RequirementsDelete, \
     RequirementsUpdate, TourBookCreate, TourBookUpdate, TourBookDelete, ExecutiveSummaryCreate, ExecutiveSummaryDelete, \
-    ExecutiveSummaryUpdate, tourbook_pdf_view, MediaFileCreateView, tourbook_ppt_view, MediaFileDeleteView
+    ExecutiveSummaryUpdate, tourbook_pdf_view, MediaFileCreateView, tourbook_ppt_view, MediaFileDeleteView, \
+    email_requirement
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
@@ -8,9 +9,9 @@ urlpatterns = [
     path('', index, name='index'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('survey/add/', SurveyCreate.as_view(), name='survey-add'),
-    path('survey/<int:pk>/', SurveyUpdate.as_view(), name='survey-update'),
-    path('survey/<int:pk>/delete/', SurveyDelete.as_view(), name='survey-delete'),
+    path('landlordresponse/add/', LandlordReponseCreate.as_view(), name='landlordresponse-add'),
+    path('landlordresponse/<int:pk>/', LandlordResponseUpdate.as_view(), name='landlordresponse-update'),
+    path('landlordresponse/<int:pk>/delete/', LandlordResponseDelete.as_view(), name='landlordresponse-delete'),
     path('requirement/add/', RequirementsCreate.as_view(), name='requirement-add'),
     path('requirement/<int:pk>/', RequirementsUpdate.as_view(), name='requirement-update'),
     path('requirement/<int:pk>/delete/', RequirementsDelete.as_view(), name='requirement-delete'),
@@ -24,4 +25,5 @@ urlpatterns = [
     path('tourbook_ppt/<int:pk>/', tourbook_ppt_view, name='tourbook-ppt'),
     path('media_upload/<int:survey_pk>/', MediaFileCreateView.as_view(), name='media-upload'),
     path('media_delete/<int:pk>/delete/', MediaFileDeleteView.as_view(), name='media-delete'),
+    path('email_requirement/<int:pk>', email_requirement, name='email_requirement')
 ]

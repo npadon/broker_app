@@ -4,6 +4,33 @@ from django.db import models
 from django.shortcuts import reverse
 
 
+class Building(models.Model):
+    building_name = models.CharField(max_length=255, null=False, default='default_building')
+    building_address = models.CharField(max_length=255, null=False, default='default_address')
+    zipcode = models.CharField(max_length=10, null=False, default='77019')
+    building_size_RSF = models.IntegerField(null=False, default=0)
+    building_number_of_floors = models.IntegerField(null=False, default=0)
+    building_avg_floor_size = models.IntegerField(null=False, default=0)
+    building_reserved_parking_ratio = models.FloatField(null=False,
+                                                        validators=[MaxValueValidator(2), MinValueValidator(-1)],
+                                                        default=0)
+    building_reserved_parking_rates_USD_per_DAY = models.FloatField(null=False, default=0)
+    building_unreserved_parking_ratio = models.FloatField(null=False,
+                                                          validators=[MaxValueValidator(2), MinValueValidator(-1)],
+                                                          default=0)
+    building_unreserved_parking_rates_USD_per_DAY = models.FloatField(null=False, default=0)
+    supplemental_garage_reserved_parking_ratio = models.FloatField(null=True, blank=True,
+                                                                   validators=[MaxValueValidator(2),
+                                                                               MinValueValidator(-1)],
+                                                                   default=0)
+    supplemental_garage_reserved_parking_rates_USD_per_DAY = models.FloatField(null=True, blank=True, default=0)
+    supplemental_garage_unreserved_parking_ratio = models.FloatField(null=True, blank=True,
+                                                                     validators=[MaxValueValidator(2),
+                                                                                 MinValueValidator(-1)],
+                                                                     default=0)
+    building_capital_improvements = models.TextField(null=True, blank=True)
+
+
 class Requirement(models.Model):
     furniture_choices = (('Y', 'Y'), ('N', 'N'))
     lease_or_purchase_choices = (('Lease', 'Lease'), ('Purchase', 'Purchase'))
@@ -13,10 +40,9 @@ class Requirement(models.Model):
     commencement_date = models.DateField()
     term_length_YRS = models.FloatField(default=0)
 
-    submarket_A = models.NullBooleanField()
-    submarket_B = models.NullBooleanField()
-    submarket_C = models.NullBooleanField()
-    submarket_D = models.NullBooleanField()
+    submarket_CBD = models.NullBooleanField()
+    submarket_Greenway = models.NullBooleanField()
+    submarket_Galleria = models.NullBooleanField()
 
     building_class_A = models.NullBooleanField()
     building_class_B = models.NullBooleanField()
@@ -39,17 +65,10 @@ class Requirement(models.Model):
         return reverse('index')
 
 
-class Survey(models.Model):
+class LandlordResponse(models.Model):
     gross_net_bases = (('Gross', 'Gross'), ('Net', 'Net'))
-
+    building = models.ForeignKey(Building, on_delete=models.CASCADE, default=1)
     requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
-
-    building_name = models.CharField(max_length=255, null=False, default='default_building')
-    building_address = models.CharField(max_length=255, null=False, default='default_address')
-    zipcode = models.CharField(max_length=10, null=False, default='77019')
-    building_size_RSF = models.IntegerField(null=False, default=0)
-    building_number_of_floors = models.IntegerField(null=False, default=0)
-    building_avg_floor_size = models.IntegerField(null=False, default=0)
     subject_space_floors = models.CharField(max_length=50, null=False, validators=[int_list_validator()], default='0')
     subject_space_size_RSF = models.IntegerField(null=False, default=0)
     quoted_net_rental_rate_USD_per_RSF = models.FloatField(null=False, default=0)
@@ -58,36 +77,16 @@ class Survey(models.Model):
     quoted_improvement_allowance_USD = models.IntegerField(null=False, default=0)
     quoted_free_rent_months_CNT = models.IntegerField(null=False, default=0)
     quoted_free_rent_basis = models.CharField(max_length=10, choices=gross_net_bases, default='Gross', null=False)
-    building_reserved_parking_ratio = models.FloatField(null=False,
-                                                        validators=[MaxValueValidator(2), MinValueValidator(-1)],
-                                                        default=0)
-    building_reserved_parking_rates_USD_per_DAY = models.FloatField(null=False, default=0)
-    building_unreserved_parking_ratio = models.FloatField(null=False,
-                                                          validators=[MaxValueValidator(2), MinValueValidator(-1)],
-                                                          default=0)
-    building_unreserved_parking_rates_USD_per_DAY = models.FloatField(null=False, default=0)
-    supplemental_garage_reserved_parking_ratio = models.FloatField(null=True, blank=True,
-                                                                   validators=[MaxValueValidator(2),
-                                                                               MinValueValidator(-1)],
-                                                                   default=0)
-    supplemental_garage_reserved_parking_rates_USD_per_DAY = models.FloatField(null=True, blank=True, default=0)
-    supplemental_garage_unreserved_parking_ratio = models.FloatField(null=True, blank=True,
-                                                                     validators=[MaxValueValidator(2),
-                                                                                 MinValueValidator(-1)],
-                                                                     default=0)
+
     supplemental_garage_unreserved_parking_rates_USD_per_DAY = models.FloatField(null=True, blank=True, default=0)
     subject_space_former_use = models.TextField(null=True, blank=True)
     subject_space_existing_condition = models.TextField(null=True, blank=True)
-    building_capital_improvements = models.TextField(null=True, blank=True)
     other_notes = models.TextField(null=True, blank=True)
 
-    # "Upload building floor plan*"
-    # "Upload building photo*"
-    # "Upload other documents"
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
-        return self.building_name
+        return self.building.building_name
 
     def get_absolute_url(self):
         return reverse('index')
@@ -99,7 +98,7 @@ class MediaUpload(models.Model):
     upload_type_choices = (('Floorplan', 'Floorplan'), ('Image', 'Image'))
     upload_type = models.CharField(max_length=15, choices=upload_type_choices, default='Image')
     upload = models.FileField()
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    landlord_response = models.ForeignKey(LandlordResponse, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.upload.name
@@ -109,7 +108,7 @@ class TourBook(models.Model):
     tour_title = models.CharField(max_length=255)
     tour_date = models.DateField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    surveys = models.ManyToManyField(Survey)
+    landlord_reponses = models.ManyToManyField(LandlordResponse)
 
     def __str__(self):
         return self.tour_title

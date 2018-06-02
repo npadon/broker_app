@@ -8,26 +8,32 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .models import Survey, Requirement, TourBook, ExecutiveSummary, MediaUpload
+from .models import LandlordResponse, Requirement, TourBook, ExecutiveSummary, MediaUpload
 from .tourbook_pdf import TourBookPDF
 from .tourbook_ppt import TourBookPPT
 
 
 @login_required
 def index(request):
-    surveys = Survey.objects.order_by('building_name')[:5]
+    landlord_responses = LandlordResponse.objects.order_by('building_name')[:5]
     requirements = Requirement.objects.order_by('name_of_tenant')[:5]
     tour_books = TourBook.objects.order_by('tour_title')[:5]
     executive_summaries = ExecutiveSummary.objects.order_by('title')[:5]
 
-    context = {'surveys': surveys,
+    context = {'landlord_responses': landlord_responses,
                'requirements': requirements,
                'tour_books': tour_books,
                'executive_summaries': executive_summaries}
     return render(request, 'broker_app/index.html', context)
 
 
-survey_fields = [
+def email_requirement(request, pk):
+    requirement = get_object_or_404(TourBook, pk=pk)
+    context = {'requirement': requirement}
+    return render(request, 'broker_app/email_requirement.html', context)
+
+
+landlord_response_fields = [
     'requirement',
     'building_name',
     'building_address',
@@ -75,23 +81,23 @@ requirement_fields = ['name_of_tenant',
                       ]
 
 
-# Surveys
-class SurveyCreate(CreateView):
-    model = Survey
-    fields = survey_fields
+# Landlord Responses
+class LandlordReponseCreate(CreateView):
+    model = LandlordResponse
+    fields = landlord_response_fields
 
 
-class SurveyUpdate(UpdateView):
-    model = Survey
-    fields = survey_fields
+class LandlordResponseUpdate(UpdateView):
+    model = LandlordResponse
+    fields = landlord_response_fields
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 
 
-class SurveyDelete(DeleteView):
-    model = Survey
+class LandlordResponseDelete(DeleteView):
+    model = LandlordResponse
     template_name = 'broker_app\generic_confirm_delete.html'
 
     success_url = reverse_lazy('index')
@@ -196,7 +202,7 @@ class MediaFileCreateView(CreateView):
     fields = ['upload', 'upload_type']
 
     def form_valid(self, form):
-        form.instance.survey = Survey.objects.get(pk=self.kwargs['survey_pk'])
+        form.instance.survey = LandlordResponse.objects.get(pk=self.kwargs['survey_pk'])
         return super(MediaFileCreateView, self).form_valid(form)
 
     def get_success_url(self):

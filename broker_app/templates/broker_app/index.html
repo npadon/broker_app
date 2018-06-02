@@ -3,24 +3,34 @@
 {% block content %}
 
 <ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="#buildings">Buildings</a></li>
     <li><a data-toggle="tab" href="#requirements">Requirements</a></li>
-    <li class="active"><a data-toggle="tab" href="#surveys">Surveys</a></li>
+    <li class="active"><a data-toggle="tab" href="#landlord_response">Landlord responses</a></li>
     <li><a data-toggle="tab" href="#tourbooks">Tour books</a></li>
-    <li><a data-toggle="tab" href="#executivesummaries">Executive summaries</a></li>
 </ul>
 
 <div class="tab-content">
-
+    <div id="buildings" class="tab-pane fade container-fluid">
+        <h3>Buildings</h3>
+        <ul class="list-group">
+            <li>a building</li>
+        </ul>
+    </div>
     <div id="requirements" class="tab-pane fade container-fluid">
         <h3>Requirements</h3>
         <ul class="list-group">
             {% for requirement in requirements%}
             <li class="list-group-item row">
                 <a href="{% url 'requirement-update' requirement.id%}">{{ requirement }}</a>
-                <a href="{% url 'requirement-delete' requirement.id%}" class="btn btn-danger btn-sm pull-right"
-                   role="button">
-                    <span class="glyphicon glyphicon-remove"></span> Delete
-                </a>
+                <span class="pull-right">
+                    <a href="{% url 'email_requirement' requirement.id%}" class="btn btn-info btn-sm"
+                       role="button">Email requirement
+                    </a>
+                    <a href="{% url 'requirement-delete' requirement.id%}" class="btn btn-danger btn-sm"
+                       role="button">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </a>
+                </span>
             </li>
             {% endfor %}
         </ul>
@@ -28,7 +38,9 @@
             <span class="glyphicon glyphicon-plus"></span> Add
         </a>
     </div>
-    <div id="surveys" class="tab-pane fade in active container-fluid">
+
+
+    <div id="landlord_response" class="tab-pane fade in active container-fluid">
         <h3>Surveys</h3>
         <table class="table table-hover">
             <thead>
@@ -40,16 +52,17 @@
             </tr>
             </thead>
             <tbody>
-            {% for survey in surveys %}
+            {% for landlordresponse in landlordresponses %}
             <tr>
                 <td>{{ survey.requirement}}</td>
-                <td><a href="{% url 'survey-update' survey.id%}">{{ survey.building_name}}</a></td>
+                <td><a href="{% url 'landlordresponse-update' landlordresponse.id%}">{{ survey.building_name}}</a></td>
                 <td>{{ survey.created_by}}</td>
                 <td>
-                    <a href="{% url 'media-upload' survey.id%}" class="btn btn-sm btn-info" role="button">
+                    <a href="{% url 'media-upload' landlordresponse.id%}" class="btn btn-sm btn-info" role="button">
                         Add media
                     </a>
-                    <a href="{% url 'survey-delete' survey.id%}" class="btn btn-danger btn-sm" role="button">
+                    <a href="{% url 'landlordresponse-delete' landlordresponse.id%}" class="btn btn-danger btn-sm"
+                       role="button">
                         <span class="glyphicon glyphicon-remove"></span> Delete
                     </a>
                 </td>
@@ -57,7 +70,7 @@
             {% endfor %}
             </tbody>
         </table>
-        <a href="{% url 'survey-add'%}" role="button" class="btn btn-success btn-sm">
+        <a href="{% url 'landlordresponse-add'%}" role="button" class="btn btn-success btn-sm">
             <span class="glyphicon glyphicon-plus"></span> Add
         </a>
     </div>
@@ -80,24 +93,6 @@
             {% endfor %}
         </ul>
         <a href="{% url 'tourbook-add'%}" role="button" class="btn btn-success btn-sm">
-            <span class="glyphicon glyphicon-plus"></span> Add
-        </a>
-    </div>
-    <div id="executivesummaries" class="tab-pane fade container-fluid">
-        <h3>Executive summaries</h3>
-
-        <ul class="list-group">
-            {% for exec_summary in executive_summaries%}
-            <li class="list-group-item row">
-                <a href="{% url 'executivesummary-update' exec_summary.id%}">{{ exec_summary}}</a>
-                <a href="{% url 'executivesummary-delete' exec_summary.id%}"
-                   class="btn btn-danger btn-sm pull-right" role="button">
-                    <span class="glyphicon glyphicon-remove"></span> Delete
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-        <a href="{% url 'executivesummary-add'%}" role="button" class="btn btn-success btn-sm">
             <span class="glyphicon glyphicon-plus"></span> Add
         </a>
     </div>
