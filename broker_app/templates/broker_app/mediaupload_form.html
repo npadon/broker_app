@@ -5,7 +5,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_table }}
-    <input type="hidden" name="success_url" value="{% url 'media-upload' survey_pk %}"/>
+    <input type="hidden" name="success_url" value="{% url 'media-upload' landlordresponse_pk %}"/>
     <button type="submit" class="btn btn-info">Upload</button>
 </form>
 

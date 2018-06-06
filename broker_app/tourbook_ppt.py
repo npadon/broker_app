@@ -22,9 +22,9 @@ class TourBookPPT:
         tf = body_shape.text_frame
         tf.text = 'Surveys for tour:'
 
-        for survey in self.tour_book.surveys.all():
+        for landlord_response in self.tour_book.landlord_reponses.all():
             p = tf.add_paragraph()
-            p.text = survey.building_name
+            p.text = landlord_response.building.building_name
             p.level = 1
 
         prs.save(self.buffer)

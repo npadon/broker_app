@@ -21,13 +21,14 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="{% url 'index' %}">BroServe</a>
         </div>
-        <ul class="nav navbar-nav navbar-right">
+        <div class="nav navbar-nav navbar-right" style="vertical-align:bottom">
             {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <a class="navbar-brand" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
             {% else %}
-            <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <a class="navbar-brand" href="{% url 'signup' %}"> Register</a>
+            <a class="navbar-brand" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
             {% endif %}
-        </ul>
+        </div>
     </div>
 </nav>
 <br>

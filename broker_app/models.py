@@ -28,7 +28,15 @@ class Building(models.Model):
                                                                      validators=[MaxValueValidator(2),
                                                                                  MinValueValidator(-1)],
                                                                      default=0)
+    supplemental_garage_unreserved_parking_rates_USD_per_DAY = models.FloatField(null=True, blank=True, default=0)
+
     building_capital_improvements = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return '{name} - {address}'.format(name=self.building_name, address=self.building_address)
+
+    def get_absolute_url(self):
+        return reverse('index')
 
 
 class Requirement(models.Model):
@@ -77,8 +85,6 @@ class LandlordResponse(models.Model):
     quoted_improvement_allowance_USD = models.IntegerField(null=False, default=0)
     quoted_free_rent_months_CNT = models.IntegerField(null=False, default=0)
     quoted_free_rent_basis = models.CharField(max_length=10, choices=gross_net_bases, default='Gross', null=False)
-
-    supplemental_garage_unreserved_parking_rates_USD_per_DAY = models.FloatField(null=True, blank=True, default=0)
     subject_space_former_use = models.TextField(null=True, blank=True)
     subject_space_existing_condition = models.TextField(null=True, blank=True)
     other_notes = models.TextField(null=True, blank=True)

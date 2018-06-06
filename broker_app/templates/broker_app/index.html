@@ -13,8 +13,21 @@
     <div id="buildings" class="tab-pane fade container-fluid">
         <h3>Buildings</h3>
         <ul class="list-group">
-            <li>a building</li>
+            {% for building in buildings%}
+            <li class="list-group-item row">
+                <a href="{% url 'building-update' building.id%}">{{ building }}</a>
+                <span class="pull-right">
+                    <a href="{% url 'building-delete' building.id%}" class="btn btn-danger btn-sm"
+                       role="button">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </a>
+                </span>
+            </li>
+            {% endfor %}
         </ul>
+        <a href="{% url 'building-add'%}" role="button" class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-plus"></span> Add
+        </a>
     </div>
     <div id="requirements" class="tab-pane fade container-fluid">
         <h3>Requirements</h3>
@@ -41,7 +54,7 @@
 
 
     <div id="landlord_response" class="tab-pane fade in active container-fluid">
-        <h3>Surveys</h3>
+        <h3>Landlord Responses</h3>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -52,11 +65,11 @@
             </tr>
             </thead>
             <tbody>
-            {% for landlordresponse in landlordresponses %}
+            {% for landlordresponse in landlord_responses %}
             <tr>
-                <td>{{ survey.requirement}}</td>
-                <td><a href="{% url 'landlordresponse-update' landlordresponse.id%}">{{ survey.building_name}}</a></td>
-                <td>{{ survey.created_by}}</td>
+                <td>{{ landlordresponse.requirement}}</td>
+                <td><a href="{% url 'landlordresponse-update' landlordresponse.id%}">{{landlordresponse.building.building_name}}</a></td>
+                <td>{{ landlordresponse.created_by}}</td>
                 <td>
                     <a href="{% url 'media-upload' landlordresponse.id%}" class="btn btn-sm btn-info" role="button">
                         Add media
